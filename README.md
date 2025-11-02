@@ -14,15 +14,18 @@ This plugin requires [Tmux Plugin Manager (TPM)](https://github.com/tmux-plugins
 
 1. Add the plugin to your `.tmux.conf`:
 
-    ```tmux
-    set -g @plugin 'not-diba/tmux-daily-affirmations'
-    ```
+   ```tmux
+   set -g @plugin 'not-diba/tmux-daily-affirmations'
+
+   #Load daily affirmations plugin
+   run ~/.tmux/plugins/tmux-daily-affirmations/tmux_daily_affirmations.tmux
+   ```
 
 2. Reload tmux configuration or restart tmux:
 
-    ```bash
-    tmux source-file ~/.tmux.conf
-    ```
+   ```bash
+   tmux source-file ~/.tmux.conf
+   ```
 
 3. Install the plugin via TPM by pressing `prefix + I` (capital I) inside tmux.
 
@@ -58,3 +61,4 @@ This will prepend a separator `|` in the specified color, followed by the affirm
 Contributions and suggestions are welcome! Please feel free to open issues or submit pull requests.
 
 This project is open source and available under the MIT License.
+
