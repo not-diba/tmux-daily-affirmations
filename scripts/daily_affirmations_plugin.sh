@@ -16,12 +16,17 @@ if [ -f "$CACHE_FILE" ]; then
 fi
 
 # Otherwise, fetch new affirmation
-response=$(curl -s https://www.affirmations.dev/)
+response=$(curl -s --max-time 5 https://www.affirmations.dev/)
 affirmation=$(echo "$response" | jq -r '.affirmation' 2>/dev/null)
 
 # Fallback if jq isn't available
 if [ -z "$affirmation" ] || [ "$affirmation" = "null" ]; then
   affirmation=$(echo "$response" | sed -E 's/.*"affirmation":"([^"]+)".*/\1/')
+fi
+
+# --- Final fallback if still empty or API unreachable ---
+if [ -z "$affirmation" ] || [ "$affirmation" = "null" ]; then
+  affirmation="You are awesome"
 fi
 
 # Cache today's date + affirmation
