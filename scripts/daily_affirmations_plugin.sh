@@ -16,17 +16,16 @@ if [ -f "$CACHE_FILE" ]; then
 fi
 
 # Otherwise, fetch new affirmation
-response=$(curl -s --max-time 5 https://www.affirmations.dev/)
-affirmation=$(echo "$response" | jq -r '.affirmation' 2>/dev/null)
+response=$(curl --max-time 5 https://www.affirmations.dev/)
 
-# Fallback if jq isn't available
-if [ -z "$affirmation" ] || [ "$affirmation" = "null" ]; then
-  affirmation=$(echo "$response" | sed -E 's/.*"affirmation":"([^"]+)".*/\1/')
-fi
-
-# --- Final fallback if still empty or API unreachable ---
-if [ -z "$affirmation" ] || [ "$affirmation" = "null" ]; then
+if [ "$response" ~= "Could not resolve host:" ]; then
   affirmation="You are awesome"
+else
+  if command -v jq &> /dev/null; then
+    affirmation=$(echo "$response" | jq -r '.affirmation' 2>/dev/null)
+  else
+    affirmation=$(echo "$response" | sed -E 's/.*"affirmation":"([^"]+)".*/\1/')
+  fi
 fi
 
 # Cache today's date + affirmation
