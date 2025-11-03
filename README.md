@@ -8,6 +8,10 @@ Tmux Daily Affirmation is a simple script that displays a daily affirmation mess
 - Displays the affirmation in your tmux status bar.
 - Lightweight and easy to install via TPM (Tmux Plugin Manager).
 
+## Dependences
+
+ - [jq](https://jqlang.org/) (optional)
+
 ## Installation
 
 This plugin requires [Tmux Plugin Manager (TPM)](https://github.com/tmux-plugins/tpm). If you don't have TPM installed, please follow the instructions on its repository.
