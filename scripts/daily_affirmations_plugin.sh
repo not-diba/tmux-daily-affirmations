@@ -19,13 +19,22 @@ fi
 response=$(curl -s --max-time 5 https://www.affirmations.dev/)
 affirmation=$(echo "$response" | jq -r '.affirmation' 2>/dev/null)
 
+# If affirmation is empty or only whitespace, try fetching again
+if [ -z "${affirmation// }" ]; then
+  response=$(curl -s --max-time 5 https://www.affirmations.dev/)
+  affirmation=$(echo "$response" | jq -r '.affirmation' 2>/dev/null)
+  if [ -z "${affirmation// }" ]; then
+    affirmation="You are awesome"
+  fi
+fi
+
 # Fallback if jq isn't available
-if [ -z "$affirmation" ] || [ "$affirmation" = "null" ]; then
+if [ -z "$affirmation" ]; then
   affirmation=$(echo "$response" | sed -E 's/.*"affirmation":"([^"]+)".*/\1/')
 fi
 
 # --- Final fallback if still empty or API unreachable ---
-if [ -z "$affirmation" ] || [ "$affirmation" = "null" ]; then
+if [ -z "$affirmation" ]; then
   affirmation="You are awesome"
 fi
 
